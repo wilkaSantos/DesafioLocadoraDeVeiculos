@@ -64,7 +64,7 @@ class UserControllers{
 
   async update(request, response){
 
-    const { idUser } = request.params;
+    const  idUser  = request.user.idUser;
     const { name, cpfCnpj, email, phone, newPassword, oldPassword, road, number, district, county, state } = request.body;
 
     const userExists = await connection('users').where({ idUser }).first();
@@ -91,7 +91,7 @@ class UserControllers{
       }
     }
 
-    const newPasswordHashed = await bcrypt.hash(newPassword, 7);
+    const newPasswordHashed = await hash(newPassword, 7);
 
     await connection('users').where({ idUser }).update({
       name: name ? name : userExists.name, 
