@@ -1,12 +1,14 @@
 const CarControllers = require('../controllers/carControllers');
 const { Router } = require('express');
+const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 
 const carControll = new CarControllers();
-const userRoute = Router();
+const carRoute = Router();
 
-userRoute.post('/create', carControll.create);
-userRoute.post('/update', carControll.update);
-userRoute.get('/index', carControll.index);
-userRoute.get('/show', carControll.show);
+carRoute.use(ensureAuthenticated);
+carRoute.post('/create', carControll.create);
+carRoute.post('/update', carControll.update);
+carRoute.get('/index', carControll.index);
+carRoute.get('/show', carControll.show);
 
-module.exports = userRoute;
+module.exports = carRoute;

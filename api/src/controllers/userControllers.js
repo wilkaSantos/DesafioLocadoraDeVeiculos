@@ -110,6 +110,18 @@ class UserControllers{
   }
 
   async index(request, response){
+    const idUser = request.user.idUser;
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(!userExists){
+      return response.json({"mensagem": "Usuário inválido."});
+    }
+
+    if(userExists.userType !== 0){
+      return response.json({"mensagem": "Usuário não tem permissão, para realizar está ação."});
+    }
+
     const userList = await connection('users').select().orderBy('name');
   
     if(userList.length < 1){
@@ -117,6 +129,18 @@ class UserControllers{
     }
 
     return response.json({ userList });
+  }
+
+  async show(request, response){
+    const idUser = request.user.idUser;
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(!userExists){
+      return response.json({"mensagem": "Usuário inválido."});
+    }
+
+    return response.json({ userExists });
   }
 
 }

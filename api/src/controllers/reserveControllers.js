@@ -1,6 +1,6 @@
-const connection = require('../database/knex');
 const calculateValue = require('../utils/calculatingReserveValue');
 const convertDate  = require('../utils/convertDate');
+const connection = require('../database/knex');
 
 class ReserveControllers{
 
@@ -33,7 +33,6 @@ class ReserveControllers{
       return response.json({"mensagem": "A data de retirada não deve ser menor que a data atual."});
     }
 
-
     if(dateDelivery === dateWithdraw){
       return response.json({"mensagem": "A data de entrega não pode ser igual a data de retirada."});
     }
@@ -46,6 +45,13 @@ class ReserveControllers{
   async update(request, response){
     const { idReserve } = request.params;
     const { idCars, qtd, paymentMethod } = request.body;
+    const idUser = request.user.idUser;
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(!userExists){
+      return response.json({"mensagem": "Usuário inválido."});
+    }
 
     const reserveExists = await connection('reserve').where({ idReserve }).first();
 
@@ -67,10 +73,23 @@ class ReserveControllers{
   }
 
   async index(request, response){
+    const idUser = request.user.idUser;
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(!userExists){
+      return response.json({"mensagem": "Usuário inválido."});
+    }
+
+    if(userExists.usertype === 2){
+      const myReservations = await connection('reserve').where({ idUser });
+    }
+
     const reservations = await connection('reserve').select().orderBy('idUser');
 
     return response.json(reservations);
   }
+
 }
 
 module.exports = ReserveControllers;

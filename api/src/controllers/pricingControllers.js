@@ -4,9 +4,20 @@ class PricingControllers{
 
   async create(request, response){
     const { carType, periodType, periodValue } = request.body;
+    const idUser = request.user.idUser;
 
     if(!carType && carType < 0 || !periodType && periodType < 0 || !periodValue){
       return response.json({"mensagem": "Preencher campos obrigatórios."})
+    }
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(!userExists){
+      return response.json({"mensagem": "Usuário inválido."});
+    }
+
+    if(userExists.userType !== 0){
+      return response.json({"mensagem": "Usuário não tem permissão, para realizar está ação."});
     }
 
     const pricingExists = await connection('pricing').where({ carType }).where({ periodType }).first();
@@ -29,6 +40,13 @@ class PricingControllers{
   async update(request, response){
     const { idPricing } = request.params;
     const { periodValue } = request.body;
+    const idUser = request.user.idUser;
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(userExists.userType !== 0){
+      return response.json({"mensagem": "Usuário não tem permissão, para realizar está ação."});
+    }
 
     const pricingUpdated = await connection('pricing').where({ idPricing }).first();
 
@@ -42,6 +60,13 @@ class PricingControllers{
   }
 
   async index(request, response){
+    const idUser = request.user.idUser;
+
+    const userExists = await connection('users').where({ idUser }).first();
+
+    if(userExists.userType == 2){
+      return response.json({"mensagem": "Usuário não tem permissão, para realizar está ação."});
+    }
 
     const pricingsList = await connection('pricing').select('carType', 'periodType', 'periodValue').orderBy('carType');
 
