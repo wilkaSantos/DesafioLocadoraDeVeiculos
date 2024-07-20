@@ -63,9 +63,15 @@ class UserControllers{
   }
 
   async update(request, response){
-
-    const  idUser  = request.user.idUser;
+    const  userTokenId  = request.user.id;
+    const { idUser } = request.params;
     const { name, cpfCnpj, email, phone, newPassword, oldPassword, road, number, district, county, state } = request.body;
+
+    const validateUserPermission = await connection('users').where({ idUser: idToken }).first();
+   
+    if(validateUserPermission.userType !== 0 && validateUserPermission.userType !== 1 && validateUserPermission.idUser !== id_user){
+      return response.json({"mensagem": "Usuário não tem permissão para realizar está ação."});
+    }
 
     const userExists = await connection('users').where({ idUser }).first();
 
@@ -110,7 +116,7 @@ class UserControllers{
   }
 
   async index(request, response){
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
     const userExists = await connection('users').where({ idUser }).first();
 
@@ -132,9 +138,9 @@ class UserControllers{
   }
 
   async show(request, response){
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
-    const userExists = await connection('users').where({ idUser }).first();
+    const userExists = await connection('users').where({ idUser: idToken }).first();
 
     if(!userExists){
       return response.json({"mensagem": "Usuário inválido."});

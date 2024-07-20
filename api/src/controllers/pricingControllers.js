@@ -4,13 +4,13 @@ class PricingControllers{
 
   async create(request, response){
     const { carType, periodType, periodValue } = request.body;
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
     if(!carType && carType < 0 || !periodType && periodType < 0 || !periodValue){
       return response.json({"mensagem": "Preencher campos obrigatórios."})
     }
 
-    const userExists = await connection('users').where({ idUser }).first();
+    const userExists = await connection('users').where({ idUser: idToken }).first();
 
     if(!userExists){
       return response.json({"mensagem": "Usuário inválido."});
@@ -40,7 +40,7 @@ class PricingControllers{
   async update(request, response){
     const { idPricing } = request.params;
     const { periodValue } = request.body;
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
     const userExists = await connection('users').where({ idUser }).first();
 
@@ -60,7 +60,7 @@ class PricingControllers{
   }
 
   async index(request, response){
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
     const userExists = await connection('users').where({ idUser }).first();
 

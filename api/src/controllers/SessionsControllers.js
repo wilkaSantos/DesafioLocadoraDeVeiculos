@@ -18,6 +18,7 @@ class SessionsControllers{
     const passwordMatch = await bcrypt.compare(password, userExists.password);
     
     if(!passwordMatch){
+      console.log('pas entrou');
       return response.json({"mensagem": "Email ou senha incorreto."});
     }
 

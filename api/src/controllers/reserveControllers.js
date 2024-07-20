@@ -45,7 +45,7 @@ class ReserveControllers{
   async update(request, response){
     const { idReserve } = request.params;
     const { idCars, qtd, paymentMethod } = request.body;
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
     const userExists = await connection('users').where({ idUser }).first();
 
@@ -73,7 +73,7 @@ class ReserveControllers{
   }
 
   async index(request, response){
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
     const userExists = await connection('users').where({ idUser }).first();
 

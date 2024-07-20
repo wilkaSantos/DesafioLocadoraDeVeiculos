@@ -4,9 +4,9 @@ class CarControllers{
 
   async create(request, response){
     const { name, engineType, plate, color, model, avatar, carType } = request.body;
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
-    const userExists = await connection('users').where({ idUser }).first();
+    const userExists = await connection('users').where({ idUser: idToken }).first();
 
     if(userExists.usertype == 2){
       return response.json({"mensagem": "Usuário não tem permissão, para realizar esta ação."});
@@ -30,9 +30,9 @@ class CarControllers{
   async update(request, response){
     const { idCars } = request.params;
     const { name, engineType, plate, color, model, avatar } = require.body;
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
-    const userExists = await connection('users').where({ idUser }).first();
+    const userExists = await connection('users').where({ idUser: idToken }).first();
 
     if(userExists.usertype == 2){
       return response.json({"mensagem": "Usuário não tem permissão, para realizar esta ação."});
@@ -59,9 +59,9 @@ class CarControllers{
 
   async show(request, response){
     const { idCars } = request.body;
-    const idUser = request.user.idUser;
+    const userTokenId = request.user.id;
 
-    const userExists = await connection('users').where({ idUser }).first();
+    const userExists = await connection('users').where({ idUser: idToken }).first();
     
     if(!userExists){
       return response.json({"mensagem": "Usuário inválido."});
