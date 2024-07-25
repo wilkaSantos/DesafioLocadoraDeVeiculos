@@ -1,8 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import theme from './theme';
 
 export default createGlobalStyle `
-
   *{
     padding: 0;
     margin: 0;
@@ -13,7 +11,7 @@ export default createGlobalStyle `
     font-family: "Poppins", sans-serif;
   }
 
-    a{
+  a{
     text-decoration: none;
   }
   

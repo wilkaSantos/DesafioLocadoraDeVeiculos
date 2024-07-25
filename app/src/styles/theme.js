@@ -9,6 +9,7 @@ export default {
     black: "#242424",
     white: "#ffffff",
     yellow: "#ecb75e",
+    yellow_login: "#ffa500",
   }
 }
 
