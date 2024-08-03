@@ -18,17 +18,17 @@ export function Register(){
             <Input type="email" />
           </div>
           <section>
-            <div>
+            <div className='aux'>
               <label>Cpf/Cnpj</label>
               <Input type="text" />
             </div>
-            <div>
+            <div className='aux'>
               <label>Telefone</label>
               <Input type="phone" />
             </div>
           </section>
           <section>
-            <div>
+            <div className='aux'>
               <label>Endereço</label>
               <Input type="text" />
             </div>

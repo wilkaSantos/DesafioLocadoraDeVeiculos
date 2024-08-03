@@ -30,6 +30,7 @@ export const Container = styled.div`
         gap: 2px;
 
         > h2{
+          margin-bottom: 15px;
           text-align: center;
           color: ${theme.colors.blue_700};
         }
@@ -51,12 +52,19 @@ export const Container = styled.div`
         > button{
           margin-top: 18px;
         }
+
+        .aux{
+          width: 100%;
+        }
       }
     }
 `;
 
 export const Image = styled.div`
   width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
   > img{
     width: 337px;
