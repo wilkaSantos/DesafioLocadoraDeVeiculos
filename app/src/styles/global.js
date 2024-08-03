@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import theme from './theme';
 
 export default createGlobalStyle `
   *{
@@ -22,6 +23,10 @@ export default createGlobalStyle `
 
   button:hover{
     filter: brightness(.9);
+  }
+
+  body{
+    background: ${theme.colors.gray_100};
   }
 
 `;

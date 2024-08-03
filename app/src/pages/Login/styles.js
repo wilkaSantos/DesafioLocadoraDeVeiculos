@@ -22,7 +22,7 @@ export const Container = styled.div`
     
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-
+    background-color: ${theme.colors.white};
   }
 `;
 
